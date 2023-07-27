@@ -1,22 +1,21 @@
-#include <algorithm>
 #include <iostream>
-#include <vector>
+#include<vector>
+#include<algorithm>
 using namespace std;
 
-int N, M;
-
-void binarySearch(int val, vector<int> &a) {
-    int start = 0;
-    int end = N - 1;
-    while(start<=end){
-        int mid = (start + end) / 2;
-        if (val < a[mid]) {
-            end = mid - 1;
+int n,m;
+void binarysearch(int k, vector<int>&A){
+    int low=0;
+    int high = n-1;
+    while(low<=high){
+        int mid = (low + high) / 2;
+        if(k>A[mid]){
+            low = mid + 1;
         }
-        else if (val > a[mid]) {
-            start = mid + 1;
+        else if(k<A[mid]){
+            high = mid - 1;
         }
-        else {
+        else{
             cout << 1 << "\n";
             return;
         }
@@ -24,25 +23,20 @@ void binarySearch(int val, vector<int> &a) {
     cout << 0 << "\n";
     return;
 }
-
-int main(void){
+int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
-    cin >> N;
-    vector<int> a(N);
-
-    for (int i = 0; i < N; i++) {
-        cin >> a[i];
+    cin >> n;
+    vector<int> A(n);
+    for(int i=0;i<n;i++){
+        cin >> A[i];
     }
-    sort(a.begin(), a.end());
-
-    cin >> M;
-    for (int i = 0; i < M; i++) {
-        int val;
-        cin >> val;
-        binarySearch(val, a);
+    sort(A.begin(), A.end());
+    cin >> m;
+    for(int i=0;i<m;i++){
+        int k;
+        cin >> k;
+        binarysearch(k,A);
     }
     return 0;
-    
-
 }
