@@ -1,47 +1,50 @@
 #include <iostream>
 #include<vector>
 #include<algorithm>
+#include <numeric>
+#include<queue>
 using namespace std;
 
-vector<vector<int>> A(1001);
-vector<int> stack;
+vector<queue<int>> S(1001);
+vector<bool> isVisit(1001, false);
+void mysearch(int i){
 
-void search(int i){
-    auto j = A[i].begin();
-    stack.push_back(i);
-    for(int k=0;k<A[i].size();k++){
-        if(find(stack.begin(), stack.end(), *(j+k))==stack.end()){
-            search(*(j + k));
-        }
+    if(isVisit[i]){
+        return ;
+    }
+    isVisit[i] = true;
+
+    while(!S[i].empty()){
+        auto tmp=S[i].front();
+        S[i].pop();
+//        S[tmp].pop();
+        mysearch(tmp);
     }
 }
-
 int main() {
-    int count=0;
-    int v, e;
-    cin >> v >> e;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-    for(int i=0;i<e;i++){
-        int a,b;
-        cin >> a >> b;
-        A[a-1].push_back(b-1);
-        A[b-1].push_back(a-1);
+    int node,edge,count=0;
+
+    cin>>node>>edge;
+
+    for(int i=0;i<edge;i++){
+        int start, end;
+        cin >> start >> end;
+        S[start].push(end);
+        S[end].push(start);
     }
 
-    for(int i=0;i<v;i++){
-        auto it = find(stack.begin(), stack.end(), i);
-        if(it!=stack.end()){
-            continue;
-        }
-        search(i);
-        count++;
-        if(stack.size()==v){
-            break;
+    for(int i=1;i<=node;i++){
+        if(!isVisit[i]){
+            count++;
+            mysearch(i);
         }
     }
-    cout << count << endl;
 
-    return 0;
+
+    cout << count << "\n";
 }
-
 
